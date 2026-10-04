@@ -1,399 +1,208 @@
 import React, { useEffect, useRef } from "react";
 import { createWebSocketClient } from "../websocket";
-import { THEMES } from "../theme";
+// import { THEMES, normalizeThemeKey } from "../theme";
 import { API_URL } from "../../config";
+import { THEMES, normalizeThemeKey, toBackendTheme } from "../theme";
+const ORDER = ["default", "midnight", "flower", "novel", "cafe"];
 
 // =======================
 // THEME CARD
 // =======================
 
-const ThemeCard = ({ id, sel, onSel, t }) => {
-
+const ThemeCard = ({ id, sel, onSel }) => {
   const theme = THEMES[id];
   const isFull = id === "default";
 
   return (
     <div
       onClick={() => onSel(id)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && onSel(id)}
       style={{
-        borderRadius: 16,
-        overflow: "hidden",
-        cursor: "pointer",
-        position: "relative",
-        height: 88,
         gridColumn: isFull ? "1 / -1" : undefined,
-
-        border: `2px solid ${
-          sel ? theme.accent : "transparent"
-        }`,
-
-        boxShadow: sel
-          ? `0 0 0 2px ${theme.accent}, 0 8px 28px ${theme.shadow}`
-          : `0 3px 16px ${theme.shadow}`,
-
-        transform: sel
-          ? "translateY(-2px)"
-          : "translateY(0)",
-
-        transition: "all .25s ease",
+        position: "relative",
+        display: "flex",
+        alignItems: "center",
+        gap: 14,
+        padding: "16px 18px",
+        borderRadius: 22,
+        cursor: "pointer",
         background: theme.pageBg,
+        border: `2px solid ${sel ? theme.accent : theme.navBorder}`,
+        boxShadow: sel ? `0 8px 22px ${theme.shadow}` : "none",
+        transform: sel ? "translateY(-2px)" : "none",
+        transition: "all .25s ease",
       }}
     >
-
-      {/* Animated background particles */}
+      {/* Emoji bubble */}
       <div
         style={{
-          position: "absolute",
-          inset: 0,
-          overflow: "hidden",
-        }}
-      >
-
-        {id === "rain" &&
-          Array.from({ length: 10 }).map((_, i) => (
-            <div
-              key={i}
-              style={{
-                position: "absolute",
-                left: `${i * 10 + Math.random() * 8}%`,
-                width: 1.5,
-                height: `${10 + Math.random() * 10}px`,
-                borderRadius: 2,
-                background:
-                  `rgba(140,200,255,${.15 + Math.random() * .2})`,
-                animation:
-                  `rainFall ${.5 + Math.random() * .4}s linear ${Math.random() * .8}s infinite`,
-              }}
-            />
-          ))}
-
-        {id === "autumn" &&
-          ["🍂", "🍁", "🍃"].map((e, i) => (
-            <div
-              key={i}
-              style={{
-                position: "absolute",
-                top: -5,
-                left: `${18 + i * 26}%`,
-                fontSize: 9,
-                opacity: .5,
-                animation:
-                  `leafFall ${2 + i * .4}s ease-in-out ${i * .5}s infinite`,
-              }}
-            >
-              {e}
-            </div>
-          ))}
-
-        {id === "cafe" &&
-          Array.from({ length: 5 }).map((_, i) => (
-            <div
-              key={i}
-              style={{
-                position: "absolute",
-                bottom: 4,
-                left: `${12 + i * 18}%`,
-                width: 2.5,
-                height: `${14 + Math.random() * 12}px`,
-                borderRadius: 2,
-                background: "rgba(60,160,60,.35)",
-                animation:
-                  `steam ${1.2 + i * .25}s ease-out ${i * .3}s infinite`,
-              }}
-            />
-          ))}
-      </div>
-
-
-      {/* Content */}
-      <div
-        style={{
-          position: "relative",
-          zIndex: 2,
-          height: "100%",
+          width: 46,
+          height: 46,
+          borderRadius: "50%",
+          flexShrink: 0,
           display: "flex",
           alignItems: "center",
-          padding: "0 16px",
-          gap: 14,
+          justifyContent: "center",
+          fontSize: 24,
+          background: theme.cardBg,
+          border: `1px solid ${theme.navBorder}`,
         }}
       >
+        {theme.emoji}
+      </div>
 
-        {/* Emoji */}
+      {/* Name + description */}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div
+          className="hand"
+          style={{
+            fontSize: 17,
+            color: theme.text,
+            lineHeight: 1.15,
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {theme.label}
+        </div>
+        <p
+          style={{
+            fontSize: 11.5,
+            fontWeight: 500,
+            color: theme.textMuted,
+            marginTop: 3,
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {theme.desc}
+        </p>
+      </div>
+
+      {/* Palette dots, or a check when selected */}
+      {sel ? (
         <div
           style={{
-            width: 48,
-            height: 48,
-            borderRadius: 12,
             flexShrink: 0,
+            width: 24,
+            height: 24,
+            borderRadius: "50%",
+            background: theme.accent,
+            color: "#fff",
+            fontSize: 13,
+            fontWeight: 700,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontSize: 26,
-            background: "rgba(255,255,255,.18)",
           }}
         >
-          {theme.emoji}
+          ✓
         </div>
-
-
-        {/* Theme text */}
-        <div
-          style={{
-            flex: 1,
-            minWidth: 0,
-          }}
-        >
-          <div
-            className="hand"
-            style={{
-              fontSize: 18,
-              color: theme.accent,
-              lineHeight: 1.1,
-              fontWeight: 700,
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {theme.label}
-          </div>
-
-          <p
-            style={{
-              fontSize: 10.5,
-              color: theme.accent + "BB",
-              marginTop: 3,
-              lineHeight: 1.4,
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {theme.desc}
-          </p>
+      ) : (
+        <div style={{ display: "flex", flexShrink: 0 }}>
+          {[theme.accent, theme.accentLight, theme.bgDark].map((c, i) => (
+            <span
+              key={i}
+              style={{
+                width: 12,
+                height: 12,
+                borderRadius: "50%",
+                background: c,
+                marginLeft: i ? -4 : 0,
+                border: `1.5px solid ${theme.cardBg}`,
+              }}
+            />
+          ))}
         </div>
-
-
-        {/* Selected indicator */}
-        {sel && (
-          <div
-            style={{
-              flexShrink: 0,
-              padding: "3px 10px",
-              borderRadius: 20,
-              fontSize: 10,
-              fontWeight: 700,
-              letterSpacing: .5,
-              background: "rgba(255,255,255,.22)",
-              color: theme.accent,
-              whiteSpace: "nowrap",
-            }}
-          >
-            ✓ Selected
-          </div>
-        )}
-
-      </div>
+      )}
     </div>
   );
 };
-
 
 // =======================
 // THEMES PAGE
 // =======================
 
 const Themes = ({ roomCode, sel, setSel, t }) => {
-
   const wsClient = useRef(null);
 
-
-  // =======================
   // REAL-TIME THEME UPDATES
-  // =======================
-
   useEffect(() => {
-
     if (!roomCode) return;
 
-    console.log("🔌 Connecting Theme WebSocket...");
-
-    wsClient.current =
-      createWebSocketClient((client) => {
-
-        console.log("✅ Theme WebSocket connected");
-
-        client.subscribe(
-          `/topic/room/${roomCode}/theme`,
-          (message) => {
-
-            const updatedRoom =
-              JSON.parse(message.body);
-
-            console.log(
-              "🎨 Theme update received:",
-              updatedRoom
-            );
-
-            // Backend sends enum like "RAIN".
-            // Frontend theme IDs are lowercase.
-            setSel(
-              updatedRoom.theme.toLowerCase()
-            );
-          }
-        );
+    wsClient.current = createWebSocketClient((client) => {
+      client.subscribe(`/topic/room/${roomCode}/theme`, (message) => {
+        const updatedRoom = JSON.parse(message.body);
+        // Backend sends an enum like "MIDNIGHT"; old values (RAIN, AUTUMN) are mapped too.
+        setSel(normalizeThemeKey(updatedRoom.theme));
       });
+    });
 
-
-    // Disconnect when component unmounts
     return () => {
-
       if (wsClient.current) {
-
-        console.log(
-          "🔴 Disconnecting Theme WebSocket"
-        );
-
         wsClient.current.deactivate();
         wsClient.current = null;
       }
     };
-
   }, [roomCode, setSel]);
 
-
-  // =======================
   // CHANGE THEME
-  // =======================
-
   const handleThemeSelect = async (id) => {
+    const previous = sel;
+    setSel(id); // instant feedback
 
     try {
-
       const response = await fetch(
-        `${API_URL}/api/rooms/${roomCode}/theme?theme=${id.toUpperCase()}`,
-        {
-          method: "PUT",
-        }
+        `${API_URL}/api/rooms/${roomCode}/theme?theme=${toBackendTheme(id)}`,
+        { method: "PUT" }
       );
-
-      if (!response.ok) {
-        throw new Error("Failed to update theme");
-      }
-
-      const data = await response.json();
-
-      console.log(
-        "Updated room theme:",
-        data
-      );
-
-      // Backend has successfully updated the theme.
-      // WebSocket will also broadcast the change
-      // to everyone in the room.
-      setSel(id);
-
+      if (!response.ok) throw new Error("Failed to update theme");
     } catch (error) {
-
-      console.error(
-        "Error updating theme:",
-        error
-      );
+      console.error("Error updating theme:", error);
+      setSel(previous); // roll back if the server rejected it
     }
   };
-
 
   return (
     <div
       className="page"
-      style={{
-        padding: "88px 24px 28px",
-        maxWidth: 760,
-        margin: "0 auto",
-      }}
+      style={{ padding: "96px 24px 190px", maxWidth: 760, margin: "0 auto" }}
     >
-
-      {/* Heading */}
-      <div
-        style={{
-          textAlign: "center",
-          marginBottom: 24,
-        }}
-      >
-
-        <div
-          className="hand"
-          style={{
-            fontSize: 32,
-            color: t.green,
-          }}
-        >
-          Choose Your Room 🌸
+      <div style={{ textAlign: "center", marginBottom: 26 }}>
+        <div className="hand" style={{ fontSize: 30, color: t.text }}>
+          Choose your room 🌸
         </div>
-
-        <p
-          style={{
-            fontSize: 12,
-            color: t.textMuted,
-            marginTop: 4,
-          }}
-        >
-          Pick an atmosphere that changes the whole vibe
+        <p style={{ fontSize: 13, fontWeight: 500, color: t.textMuted, marginTop: 4 }}>
+          Pick the mood for everyone in the room
         </p>
-
       </div>
 
-
-      {/* Theme cards */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 10,
-        }}
-      >
-
-        {[
-          "default",
-          "rain",
-          "autumn",
-          "novel",
-          "cafe",
-        ].map((id) => (
-
-          <ThemeCard
-            key={id}
-            id={id}
-            sel={sel === id}
-            onSel={handleThemeSelect}
-            t={t}
-          />
-
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+        {ORDER.map((id) => (
+          <ThemeCard key={id} id={id} sel={sel === id} onSel={handleThemeSelect} />
         ))}
-
       </div>
 
-
-      {/* Current theme message */}
-      {sel && (
+      {sel && THEMES[sel] && (
         <p
           style={{
             textAlign: "center",
-            marginTop: 16,
-            fontSize: 12,
+            marginTop: 18,
+            fontSize: 13,
             color: t.green,
             fontWeight: 700,
             animation: "fadeUp .4s ease",
           }}
         >
-          ✨ Room atmosphere set to{" "}
-          {THEMES[sel]?.label}!
+          {THEMES[sel].label} is on ✨
         </p>
       )}
-
     </div>
   );
 };
-
 
 export default Themes;

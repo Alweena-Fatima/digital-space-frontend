@@ -553,24 +553,34 @@ client.subscribe(
             >
               👥 Online ({members.length}/6)
 
-              <button
-                onClick={onLeaveRoom}
-                style={{
-                 
-                  margin: "0px 0px 0px 20px",
-                  
-                  padding: "6px 6px",
-                  borderRadius: "3px",
-                  border: "none",
-                  cursor: "pointer",
-                  background: "#11de22",
-                  
-                  color: "black",
-                  fontWeight: "200",
-                }}
-              >
-                Leave Room
-              </button>
+             <button
+  onClick={onLeaveRoom}
+  style={{
+    marginLeft: 20,
+    padding: "7px 16px",
+    borderRadius: 50,
+    border: `1.5px solid ${theme.navBorder}`,
+    background: theme.selectBg,
+    color: theme.textLight,
+    fontFamily: "'Quicksand', sans-serif",
+    fontWeight: 700,
+    fontSize: 13,
+    cursor: "pointer",
+    transition: "all .2s ease",
+  }}
+  onMouseEnter={(e) => {
+    e.currentTarget.style.background = theme.green;
+    e.currentTarget.style.color = "#f9f6f6";
+    e.currentTarget.style.borderColor = theme.green;
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.background = theme.selectBg;
+    e.currentTarget.style.color = theme.textLight;
+    e.currentTarget.style.borderColor = theme.navBorder;
+  }}
+>
+  Leave Room
+</button>
             </div>
 
 
@@ -716,7 +726,7 @@ client.subscribe(
               marginBottom: 12,
             }}
           >
-            🕊️ Keep it peaceful · 1 message per 30 seconds
+             Keep it peaceful · 1 message per 20 seconds
           </p>
 
 

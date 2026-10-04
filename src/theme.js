@@ -1,281 +1,220 @@
+// Old room ids from the backend/localStorage still resolve to the new themes.
+const LEGACY = { rain: "midnight", autumn: "flower" };
+
+export const normalizeThemeKey = (key = "") => {
+  const k = String(key).toLowerCase();
+  return LEGACY[k] || k;
+};
+const BACKEND = { midnight: "RAIN", flower: "AUTUMN" };
+
+export const toBackendTheme = (id) => BACKEND[id] || id.toUpperCase();
 
 export const THEMES = {
-  // ==========================================================================
-  // 🌧️ RAIN ROOM
-  // Dark blue-gray room
-  // ==========================================================================
-
-  rain: {
-    label: "Rain Room",
-    desc: "Dark cozy lighting · rain on window · thunder ambience",
-    emoji: "🌧️",
-
-    // Page
-    pageBg:
-      "linear-gradient(135deg, #101820 0%, #182635 50%, #0D1721 100%)",
-
-    // Navbar
-    navBg: "#111C28",
-    navBorder: "#304354",
-
-    // Cards
-    cardBg: "#223344",
-    cardHoverBg: "#2A3D50",
-
-    // Inputs
-    inputBg: "#162331",
-    inputBorder: "#40586B",
-    inputFocus: "#82B9D8",
-
-    // Text
-    text: "#F1F7FA",
-    textLight: "#C4D8E5",
-    textMuted: "#91AABD",
-
-    // Accent
-    accent: "#82B9D8",
-    accentDark: "#5892B7",
-    accentLight: "#A8D3E8",
-
-    // Main green/action color
-    green: "#82B9D8",
-    greenDark: "#5892B7",
-    greenLight: "#A8D3E8",
-
-    // Other
-    shadow: "rgba(0, 0, 0, 0.45)",
-    bgLight: "#2A3D50",
-    bgDark: "#0B121A",
-    progressBg: "#172737",
-
-    badge: "rgba(130, 185, 216, 0.16)",
-    todoHover: "rgba(130, 185, 216, 0.09)",
-    selectBg: "rgba(130, 185, 216, 0.14)",
-
-    bgEffect: "rain",
-  },
-
-  // ==========================================================================
-  // 🍂 AUTUMN ROOM
-  // Dark brown room with warm amber accents
-  // ==========================================================================
-
-  autumn: {
-    label: "Autumn Room",
-    desc: "Warm amber leaves · crisp air · harvest cozy vibes",
-    emoji: "🍂",
-
-    // Page
-    pageBg:
-      "linear-gradient(135deg, #1B1009 0%, #2A180E 50%, #160B06 100%)",
-
-    // Navbar
-    navBg: "#21130B",
-    navBorder: "#523522",
-
-    // Cards
-    cardBg: "#382316",
-    cardHoverBg: "#452B1A",
-
-    // Inputs
-    inputBg: "#24140B",
-    inputBorder: "#65452D",
-    inputFocus: "#E2A45D",
-
-    // Text
-    text: "#FFF4E3",
-    textLight: "#E7C8A1",
-    textMuted: "#B99672",
-
-    // Accent
-    accent: "#E29A50",
-    accentDark: "#B96F2F",
-    accentLight: "#F0BD7A",
-
-    // Main green/action color
-    green: "#E2A45D",
-    greenDark: "#B96F2F",
-    greenLight: "#F0BD7A",
-
-    // Other
-    shadow: "rgba(0, 0, 0, 0.5)",
-    bgLight: "#452B1A",
-    bgDark: "#100704",
-    progressBg: "#28150A",
-
-    badge: "rgba(226, 164, 93, 0.16)",
-    todoHover: "rgba(226, 164, 93, 0.09)",
-    selectBg: "rgba(226, 164, 93, 0.14)",
-
-    bgEffect: "leaves",
-  },
-
-  // ==========================================================================
-  // 🍵 MATCHA CAFÉ
-  // Light cream background + dark green text
-  // ==========================================================================
-
-  cafe: {
-    label: "Matcha Café",
-    desc: "Bright green tea · bamboo walls · zen counter",
-    emoji: "🍵",
-
-    // Page
-    pageBg:
-      "linear-gradient(135deg, #F7F8EC 0%, #E5EBCF 50%, #D3DFB8 100%)",
-
-    // Navbar
-    navBg: "#FAFBF2",
-    navBorder: "#C4D1AF",
-
-    // Cards
-    cardBg: "#F9FAF0",
-    cardHoverBg: "#FFFFFF",
-
-    // Inputs
-    inputBg: "#FFFFFF",
-    inputBorder: "#B9C9A4",
-    inputFocus: "#477044",
-
-    // Text
-    text: "#18331D",
-    textLight: "#365B3A",
-    textMuted: "#668064",
-
-    // Accent
-    accent: "#477044",
-    accentDark: "#2F522F",
-    accentLight: "#72996B",
-
-    // Main green/action color
-    green: "#477044",
-    greenDark: "#2F522F",
-    greenLight: "#72996B",
-
-    // Other
-    shadow: "rgba(38, 65, 34, 0.16)",
-    bgLight: "#E7EED8",
-    bgDark: "#B8C99C",
-    progressBg: "#D7E2C0",
-
-    badge: "rgba(71, 112, 68, 0.12)",
-    todoHover: "rgba(71, 112, 68, 0.07)",
-    selectBg: "rgba(71, 112, 68, 0.10)",
-
-    bgEffect: "coffee",
-  },
-
-  // ==========================================================================
-  // 📖 NOVEL ROOM
-  // Light lavender background + dark purple text
-  // ==========================================================================
-
-  novel: {
-    label: "Novel Room",
-    desc: "Lilac haze · purple ink · dreamy reading nook",
-    emoji: "📖",
-
-    // Page
-    pageBg:
-      "linear-gradient(135deg, #F8F5FB 0%, #EAE0F2 50%, #D9C9E7 100%)",
-
-    // Navbar
-    navBg: "#FBF9FD",
-    navBorder: "#D1C2DF",
-
-    // Cards
-    cardBg: "#F7F1FB",
-    cardHoverBg: "#FFFFFF",
-
-    // Inputs
-    inputBg: "#FFFFFF",
-    inputBorder: "#C8B6D8",
-    inputFocus: "#684B86",
-
-    // Text
-    text: "#2D2038",
-    textLight: "#513A62",
-    textMuted: "#806B91",
-
-    // Accent
-    accent: "#684B86",
-    accentDark: "#4B3562",
-    accentLight: "#9779B0",
-
-    // Main green/action color
-    green: "#684B86",
-    greenDark: "#4B3562",
-    greenLight: "#9779B0",
-
-    // Other
-    shadow: "rgba(63, 43, 79, 0.14)",
-    bgLight: "#ECE1F4",
-    bgDark: "#C9B4D9",
-    progressBg: "#DED0E9",
-
-    badge: "rgba(104, 75, 134, 0.11)",
-    todoHover: "rgba(104, 75, 134, 0.07)",
-    selectBg: "rgba(104, 75, 134, 0.10)",
-
-    bgEffect: "books",
-  },
-
-  // ==========================================================================
-  // 🌿 DEFAULT ROOM
-  // Warm parchment + dark brown/green text
-  // ==========================================================================
-
+  // ---------------------------------------------------------------- default
   default: {
     label: "Cozy Default",
-    desc: "Warm parchment · soft greens · gentle focus",
+    desc: "Warm parchment and soft greens",
     emoji: "🌿",
 
-    // Page
-    pageBg:
-      "linear-gradient(135deg, #F2E7D2 0%, #E6D7BC 50%, #D5C4A2 100%)",
-
-    // Navbar
+    pageBg: "linear-gradient(160deg, #F4EAD6 0%, #EADCC1 55%, #DCCBA9 100%)",
     navBg: "#FCF8EF",
-    navBorder: "#D5C6AA",
+    navBorder: "#D9CBAE",
 
-    // Cards
-    cardBg: "#FFF9ED",
+    cardBg: "#FFFAF0",
     cardHoverBg: "#FFFFFF",
 
-    // Inputs
     inputBg: "#FFFFFF",
-    inputBorder: "#CBB99A",
-    inputFocus: "#416A4B",
+    inputBorder: "#D2C1A1",
+    inputFocus: "#4F7A57",
 
-    // Text
     text: "#332A1E",
     textLight: "#5B4D3A",
-    textMuted: "#887A64",
+    textMuted: "#8A7C66",
 
-    // Accent
     accent: "#C66F56",
     accentDark: "#9F503D",
     accentLight: "#D9937D",
 
-    // Main green/action color
-    green: "#416A4B",
-    greenDark: "#2F5138",
-    greenLight: "#699071",
+    green: "#4F7A57",
+    greenDark: "#3A5E42",
+    greenLight: "#7BA283",
 
-    // Other
-    shadow: "rgba(67, 53, 35, 0.15)",
+    shadow: "rgba(67, 53, 35, 0.14)",
     bgLight: "#F3E8D3",
     bgDark: "#CCB993",
-    progressBg: "#DFCFB0",
+    progressBg: "#E2D3B5",
 
-    badge: "rgba(65, 106, 75, 0.10)",
-    todoHover: "rgba(65, 106, 75, 0.07)",
-    selectBg: "rgba(65, 106, 75, 0.10)",
+    badge: "rgba(79, 122, 87, 0.12)",
+    todoHover: "rgba(79, 122, 87, 0.07)",
+    selectBg: "rgba(79, 122, 87, 0.12)",
 
-    bgEffect: "plants",
+    bgEffect: "none",
+  },
+
+  // --------------------------------------------------------------- midnight
+  midnight: {
+    label: "Midnight Room",
+    desc: "Indigo sky, a little moon and stars",
+    emoji: "🌙",
+
+    pageBg: "linear-gradient(160deg, #151A30 0%, #1E2441 55%, #12162B 100%)",
+    navBg: "#171C35",
+    navBorder: "#2E365C",
+
+    cardBg: "#222A4A",
+    cardHoverBg: "#2B3560",
+
+    inputBg: "#1A2041",
+    inputBorder: "#3B4572",
+    inputFocus: "#9AA5F5",
+
+    text: "#F4F1FF",
+    textLight: "#C9CDEA",
+    textMuted: "#8F96C4",
+
+    accent: "#8C97EE",
+    accentDark: "#6672D6",
+    accentLight: "#B3BCFA",
+
+    green: "#7C88E6",
+    greenDark: "#5F6BD0",
+    greenLight: "#AAB3F8",
+
+    shadow: "rgba(5, 8, 25, 0.45)",
+    bgLight: "#2B3560",
+    bgDark: "#0E1226",
+    progressBg: "#1B2244",
+
+    badge: "rgba(140, 151, 238, 0.18)",
+    todoHover: "rgba(140, 151, 238, 0.10)",
+    selectBg: "rgba(140, 151, 238, 0.16)",
+
+    bgEffect: "midnight",
+  },
+
+  // ----------------------------------------------------------------- flower
+  flower: {
+    label: "Flower Room",
+    desc: "Blush pink with a garden at your feet",
+    emoji: "🌸",
+
+    pageBg: "linear-gradient(160deg, #FFF6F1 0%, #FDE9EE 55%, #F8DCE8 100%)",
+    navBg: "#FFF9F6",
+    navBorder: "#F2CFD9",
+
+    cardBg: "#FFFAF8",
+    cardHoverBg: "#FFFFFF",
+
+    inputBg: "#FFFFFF",
+    inputBorder: "#EBC4D0",
+    inputFocus: "#D9648A",
+
+    text: "#4A2B38",
+    textLight: "#75485A",
+    textMuted: "#A67A8A",
+
+    accent: "#D9648A",
+    accentDark: "#B9466C",
+    accentLight: "#EE92AF",
+
+    green: "#D9648A",
+    greenDark: "#B9466C",
+    greenLight: "#EE92AF",
+
+    shadow: "rgba(150, 70, 100, 0.14)",
+    bgLight: "#FCE4EA",
+    bgDark: "#F0BCCB",
+    progressBg: "#F7D5DF",
+
+    badge: "rgba(217, 100, 138, 0.13)",
+    todoHover: "rgba(217, 100, 138, 0.07)",
+    selectBg: "rgba(217, 100, 138, 0.12)",
+
+    bgEffect: "flower",
+  },
+
+  // ------------------------------------------------------------------ novel
+  novel: {
+    label: "Novel Room",
+    desc: "Greyish lavender and quiet pages",
+    emoji: "📖",
+
+    pageBg: "linear-gradient(160deg, #F2F0F5 0%, #E4E0EB 55%, #D4CFDE 100%)",
+    navBg: "#F7F5F9",
+    navBorder: "#D0CADA",
+
+    cardBg: "#F8F6FA",
+    cardHoverBg: "#FFFFFF",
+
+    inputBg: "#FFFFFF",
+    inputBorder: "#C6BFD3",
+    inputFocus: "#7A6F94",
+
+    text: "#2F2B3A",
+    textLight: "#565069",
+    textMuted: "#857F9A",
+
+    accent: "#7A6F94",
+    accentDark: "#5C5275",
+    accentLight: "#A39BB8",
+
+    green: "#7A6F94",
+    greenDark: "#5C5275",
+    greenLight: "#A39BB8",
+
+    shadow: "rgba(60, 50, 80, 0.12)",
+    bgLight: "#E8E4EF",
+    bgDark: "#BDB6CC",
+    progressBg: "#DAD5E4",
+
+    badge: "rgba(122, 111, 148, 0.13)",
+    todoHover: "rgba(122, 111, 148, 0.07)",
+    selectBg: "rgba(122, 111, 148, 0.12)",
+
+    bgEffect: "novel",
+  },
+
+  // ------------------------------------------------------------------- cafe
+  cafe: {
+    label: "Matcha Cafe",
+    desc: "Earthy matcha green and warm brown",
+    emoji: "🍵",
+
+    pageBg: "linear-gradient(160deg, #F4EFDE 0%, #E7E1C8 55%, #D7D0AF 100%)",
+    navBg: "#F8F4E6",
+    navBorder: "#D4CBA8",
+
+    cardBg: "#FAF6E9",
+    cardHoverBg: "#FFFDF5",
+
+    inputBg: "#FFFDF5",
+    inputBorder: "#CBBF98",
+    inputFocus: "#7B8450",
+
+    text: "#3B2E20",
+    textLight: "#5E4A34",
+    textMuted: "#8E7C60",
+
+    accent: "#7B8450",
+    accentDark: "#5C6539",
+    accentLight: "#A3AC78",
+
+    green: "#7B8450",
+    greenDark: "#5C6539",
+    greenLight: "#A3AC78",
+
+    shadow: "rgba(80, 60, 30, 0.14)",
+    bgLight: "#ECE6CE",
+    bgDark: "#C4B98F",
+    progressBg: "#DED7B8",
+
+    badge: "rgba(123, 132, 80, 0.15)",
+    todoHover: "rgba(123, 132, 80, 0.08)",
+    selectBg: "rgba(123, 132, 80, 0.14)",
+
+    bgEffect: "cafe",
   },
 };
 
 export const getTheme = (key) =>
-  THEMES[key] || THEMES.default;
-
+  THEMES[normalizeThemeKey(key)] || THEMES.default;
