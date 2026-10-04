@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { createWebSocketClient } from "../websocket";
-// import { THEMES, normalizeThemeKey } from "../theme";
 import { API_URL } from "../../config";
 import { THEMES, normalizeThemeKey, toBackendTheme } from "../theme";
+
 const ORDER = ["default", "midnight", "flower", "novel", "cafe"];
 
 // =======================
@@ -15,6 +15,7 @@ const ThemeCard = ({ id, sel, onSel }) => {
 
   return (
     <div
+      className="theme-card"
       onClick={() => onSel(id)}
       role="button"
       tabIndex={0}
@@ -37,6 +38,7 @@ const ThemeCard = ({ id, sel, onSel }) => {
     >
       {/* Emoji bubble */}
       <div
+        className="theme-card-emoji"
         style={{
           width: 46,
           height: 46,
@@ -54,9 +56,9 @@ const ThemeCard = ({ id, sel, onSel }) => {
       </div>
 
       {/* Name + description */}
-      <div style={{ flex: 1, minWidth: 0 }}>
+      <div className="theme-card-text" style={{ flex: 1, minWidth: 0 }}>
         <div
-          className="hand"
+          className="hand theme-card-name"
           style={{
             fontSize: 17,
             color: theme.text,
@@ -69,6 +71,7 @@ const ThemeCard = ({ id, sel, onSel }) => {
           {theme.label}
         </div>
         <p
+          className="theme-card-desc"
           style={{
             fontSize: 11.5,
             fontWeight: 500,
@@ -181,7 +184,7 @@ const Themes = ({ roomCode, sel, setSel, t }) => {
         </p>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+      <div className="theme-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
         {ORDER.map((id) => (
           <ThemeCard key={id} id={id} sel={sel === id} onSel={handleThemeSelect} />
         ))}

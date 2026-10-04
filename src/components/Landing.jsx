@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import AnimeGirl from "./AnimeGirl";
 import { API_URL } from "../../config";
@@ -77,6 +76,7 @@ const Landing = ({ onEnter, theme }) => {
       }}
     >
       <div
+        className="land-grid"
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
@@ -88,7 +88,7 @@ const Landing = ({ onEnter, theme }) => {
         }}
       >
         <div
-          className="card"
+          className="card land-left"
           style={{
             borderRadius: "24px 0 0 24px",
             padding: "44px 38px",
@@ -115,7 +115,7 @@ const Landing = ({ onEnter, theme }) => {
               marginBottom: 5,
             }}
           >
-            Digital Space ✨
+            Digital Space 
           </div>
 
           <p
@@ -136,7 +136,7 @@ const Landing = ({ onEnter, theme }) => {
 
             <input
               className="inp"
-              placeholder="e.g. cozybunny ☁️"
+              placeholder="e.g. cozybunny "
               value={nickname}
               onChange={(event) => {
                 setNickname(event.target.value);
@@ -150,7 +150,7 @@ const Landing = ({ onEnter, theme }) => {
 
             <input
               className="inp"
-              placeholder="e.g. Alweena 🌸"
+              placeholder="e.g. Alweena"
               value={displayName}
               onChange={(event) => {
                 setDisplayName(event.target.value);
@@ -246,7 +246,7 @@ const Landing = ({ onEnter, theme }) => {
             }}
             onClick={joinRoom}
           >
-            Join Room ✨
+            Join Room 
           </button>
 
           <button
@@ -270,6 +270,7 @@ const Landing = ({ onEnter, theme }) => {
         </div>
 
         <div
+          className="land-right"
           style={{
             background: theme.bgLight,
             borderRadius: "0 24px 24px 0",
@@ -296,7 +297,7 @@ const Landing = ({ onEnter, theme }) => {
               textAlign: "center",
             }}
           >
-            Ready to focus? 📚
+            Ready to focus? 
           </div>
 
           <p
@@ -313,27 +314,42 @@ const Landing = ({ onEnter, theme }) => {
             and achieve your daily goals~
           </p>
 
-          {[
-            "🍵 Pomodoro Timer",
-            "🎵 Ambient Sounds",
-            "📖 Word Library",
-          ].map((feature) => (
-            <div
-              key={feature}
-              style={{
-                background: theme.cardBg,
-                border: `1px solid ${theme.inputBorder}`,
-                borderRadius: 50,
-                padding: "5px 13px",
-                fontSize: 11,
-                color: theme.textLight,
-                fontWeight: 600,
-                marginTop: 5,
-              }}
-            >
-              {feature}
-            </div>
-          ))}
+          {/* Feature pills wrap onto several rows, so the list can grow */}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: 6,
+              marginTop: 12,
+            }}
+          >
+            {[
+              "🍵 Pomodoro Timer",
+              "🎵 Ambient Sounds",
+              "📖 Word Library",
+              "💭 Quote Library",
+              "💬 Real-time Chat",
+              "🎯 Goal Setting",
+              "🎨 Different Themes",
+            ].map((feature) => (
+              <div
+                key={feature}
+                style={{
+                  background: theme.cardBg,
+                  border: `1px solid ${theme.inputBorder}`,
+                  borderRadius: 50,
+                  padding: "5px 13px",
+                  fontSize: 11,
+                  color: theme.textLight,
+                  fontWeight: 600,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {feature}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

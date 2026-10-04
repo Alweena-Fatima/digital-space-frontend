@@ -44,7 +44,7 @@ const deleteQuote = async (id) => {
 };
   
   return (
-  <div className="page" style={{ padding: "88px 28px 28px", maxWidth: 980, margin: "0 auto" }}>
+  <div className="page pg" style={{ padding: "88px 28px 28px", maxWidth: 980, margin: "0 auto" }}>
     <div className="hand" style={{ fontSize: 36, color: t.green, marginBottom: 5 }}>
       Your Library 📚
     </div>
@@ -52,9 +52,9 @@ const deleteQuote = async (id) => {
       Your cozy collection of words & wisdom
     </p>
 
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 22 }}>
+    <div className="grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 22 }}>
       {/* Words */}
-      <div>
+      <div style={{ minWidth: 0 }}>
         <div className="hand" style={{ fontSize: 24, color: t.green, marginBottom: 12 }}>
           🔤 Words ({words.length})
         </div>
@@ -69,10 +69,10 @@ const deleteQuote = async (id) => {
           words.map((w) => (
             <div key={w.id} className="wcard">
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 7, minWidth: 0 }}>
                   <span style={{ fontSize: 20 }}>{w.emoji || "📖"}</span>
                   <div>
-                    <div style={{ fontWeight: 700, fontSize: 15, color: t.green }}>{w.word}</div>
+                    <div style={{ fontWeight: 700, fontSize: 15, color: t.green, overflowWrap: "anywhere" }}>{w.word}</div>
                     <span
                       style={{
                         fontSize: 9,
@@ -89,12 +89,12 @@ const deleteQuote = async (id) => {
                 </div>
                 <button
                   onClick={() => deleteWord(w.id)}
-                  style={{ background: "none", border: "none", cursor: "pointer", color: t.textMuted, fontSize: 15 }}
+                  style={{ background: "none", border: "none", cursor: "pointer", color: t.textMuted, fontSize: 18, lineHeight: 1, padding: "4px 8px", flexShrink: 0 }}
                 >
                   ×
                 </button>
               </div>
-              <p style={{ fontSize: 13, color: t.text, marginTop: 7, lineHeight: 1.6 }}>{w.meaning}</p>
+              <p style={{ fontSize: 13, color: t.text, marginTop: 7, lineHeight: 1.6, overflowWrap: "anywhere" }}>{w.meaning}</p>
               {w.example && (
                 <p style={{ fontSize: 11, color: t.textMuted, marginTop: 3, fontStyle: "italic" }}>
                   "{w.example}"
@@ -106,7 +106,7 @@ const deleteQuote = async (id) => {
       </div>
 
       {/* Quotes */}
-      <div>
+      <div style={{ minWidth: 0 }}>
         <div className="hand" style={{ fontSize: 24, color: t.green, marginBottom: 12 }}>
           💭 Quotes ({quotes.length})
         </div>
@@ -118,7 +118,7 @@ const deleteQuote = async (id) => {
         ) : (
           quotes.map((q) => (
             <div key={q.id} className="qcard" style={{ paddingTop: 24 }}>
-              <p style={{ fontSize: 14, color: t.text, lineHeight: 1.7, marginBottom: 7 }}>{q.quote}</p>
+              <p style={{ fontSize: 14, color: t.text, lineHeight: 1.7, marginBottom: 7, overflowWrap: "anywhere" }}>{q.quote}</p>
               <span style={{ fontSize: 12, color: t.textMuted, fontWeight: 700 }}>— {q.author}</span>
               <button
                 onClick={() => deleteQuote(q.id)}
@@ -128,7 +128,9 @@ const deleteQuote = async (id) => {
                   border: "none",
                   cursor: "pointer",
                   color: t.textMuted,
-                  fontSize: 15,
+                  fontSize: 18,
+                  lineHeight: 1,
+                  padding: "4px 8px",
                 }}
               >
                 ×

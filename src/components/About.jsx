@@ -1,4 +1,3 @@
-
 import React from "react";
 import AnimeGirl from "./AnimeGirl";
 
@@ -32,7 +31,7 @@ const About = ({ t }) => {
 
   return (
     <div
-      className="page"
+      className="page pg"
       style={{
         padding: "88px 28px 50px",
         maxWidth: 760,
@@ -89,7 +88,7 @@ const About = ({ t }) => {
           ===================================================== */}
 
       <div
-        className="card card-h"
+        className="card card-h pad-card"
         style={{
           padding: "24px 28px",
           marginBottom: 18,
@@ -126,7 +125,7 @@ const About = ({ t }) => {
           ===================================================== */}
 
       <div
-        className="card card-h"
+        className="card card-h pad-card"
         style={{
           padding: "24px 28px",
           marginBottom: 28,
@@ -178,7 +177,7 @@ const About = ({ t }) => {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(210px, 100%), 1fr))",
             gap: 14,
           }}
         >
@@ -221,7 +220,7 @@ const About = ({ t }) => {
           ===================================================== */}
 
       <div
-        className="card card-h"
+        className="card card-h pad-card"
         style={{
           padding: "26px 28px",
           marginBottom: 28,
@@ -271,7 +270,7 @@ const About = ({ t }) => {
           ===================================================== */}
 
       <div
-        className="card"
+        className="card pad-card"
         style={{
           padding: 28,
           marginTop: 10,
@@ -323,4 +322,3 @@ const About = ({ t }) => {
 };
 
 export default About;
-

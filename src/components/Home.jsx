@@ -1,4 +1,3 @@
-
 import React from "react";
 import { API_URL } from "../../config";
 import Pomodoro from "./Pomodoro";
@@ -26,7 +25,7 @@ const Home = ({
   setIsPomodoroRunning,
 }) => (
   <div
-    className="page"
+    className="page pg"
     style={{
       padding: "88px 28px 28px",
       maxWidth: 1080,
@@ -62,6 +61,7 @@ const Home = ({
 
     {/* Focus tools */}
     <div
+      className="grid-2"
       style={{
         display: "grid",
         gridTemplateColumns: "1fr 1fr",
@@ -114,6 +114,7 @@ const Home = ({
 
     {/* Study environment */}
     <div
+      className="grid-2"
       style={{
         display: "grid",
         gridTemplateColumns: "1fr 1fr",
@@ -134,6 +135,7 @@ const Home = ({
 
     {/* Shared room resources */}
     <div
+      className="grid-2"
       style={{
         display: "grid",
         gridTemplateColumns: "1fr 1fr",
@@ -158,4 +160,3 @@ const Home = ({
 );
 
 export default Home;
-

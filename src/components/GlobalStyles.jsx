@@ -232,6 +232,142 @@ const GlobalStyles = ({ theme }) => (
     ::-webkit-scrollbar-track { background: ${theme.bgLight}; border-radius: 10px; }
     ::-webkit-scrollbar-thumb { background: ${theme.textMuted}; border-radius: 10px; }
 
+    /* =====================================================
+       RESPONSIVE
+       laptop: >1024px (2 columns)  |  tablet: <=1024px (1 column)  |  phone: <=640px
+       ===================================================== */
+    html { -webkit-text-size-adjust: 100%; }
+    img, svg, video { max-width: 100%; }
+    .nav-ic { font-size: 14px; }
+    .nav-burger {
+      display: none;
+      align-items: center; justify-content: center;
+      width: 36px; height: 36px; margin-left: 4px;
+      border-radius: 12px; cursor: pointer;
+      background: ${theme.selectBg};
+      border: 1.5px solid ${theme.navBorder};
+      color: ${theme.green};
+      font-size: 17px; line-height: 1;
+    }
+
+    /* ---------- tablet ---------- */
+    @media (max-width: 900px) {
+      .top-nav { padding: 10px 16px !important; }
+      .nav-i { padding: 8px 10px; }
+      .nav-user { display: none; }
+      .pg { padding-left: 20px !important; padding-right: 20px !important; }
+    }
+
+    /* ---------- tablets and phones: Home / Library use a single column ---------- */
+    @media (max-width: 1024px) {
+      .grid-2 { grid-template-columns: 1fr !important; }
+    }
+
+    /* Study sidebar stacks above the chat a little later */
+    @media (max-width: 760px) {
+      .grid-side { grid-template-columns: 1fr !important; }
+
+      /* Study order when stacked: Online members, then Chat, then Room code */
+      .study-side { display: contents !important; }
+      .study-members { order: 1; }
+      .study-chat { order: 2; }
+      .study-room { order: 3; }
+    }
+
+    /* bigger tap targets on touch screens */
+    @media (pointer: coarse) {
+      .chk { width: 24px; height: 24px; }
+      .nav-i { min-height: 40px; }
+    }
+
+    /* ---------- phone ---------- */
+    @media (max-width: 640px) {
+      .hand { zoom: 0.72; }
+      .top-nav { padding: 9px 14px !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+
+      /* nav links collapse into a hamburger dropdown */
+      .nav-burger { display: flex; }
+      .nav-links { display: none !important; }
+      .nav-links.open {
+        display: flex !important;
+        flex-direction: column;
+        position: absolute; top: 100%; left: 0; right: 0;
+        gap: 4px !important;
+        padding: 10px 14px 14px;
+        background: ${theme.navBg};
+        border-bottom: 1.5px solid ${theme.navBorder};
+        box-shadow: 0 12px 24px ${theme.shadow};
+        animation: fadeUp 0.2s ease;
+      }
+      .nav-links.open .nav-i {
+        display: flex; align-items: center; gap: 10px;
+        width: 100%; text-align: left;
+        padding: 12px 14px; font-size: 15px; border-radius: 14px;
+      }
+      .nav-links.open .nav-ic { font-size: 18px; }
+
+      .pg { padding: 72px 14px 28px !important; }
+      .grid-2 { gap: 14px !important; }
+      .pad-card { padding: 18px 16px !important; }
+      .card { border-radius: 20px; }
+      .chat-box { height: 62vh !important; min-height: 380px; }
+
+      /* theme cards: one per row. As the screen gets smaller the card gets
+         narrower and taller, with its content stacked vertically. */
+      .theme-grid {
+        grid-template-columns: 1fr !important;
+        justify-items: center;
+        gap: 14px !important;
+      }
+      .theme-card {
+        flex-direction: column !important;
+        justify-content: center;
+        text-align: center;
+        gap: 10px !important;
+        width: clamp(170px, 62vw, 320px);   /* narrower on smaller screens */
+        min-height: clamp(140px, calc(300px - 25vw), 230px); /* taller on smaller screens */
+        padding: 18px 12px !important;
+      }
+      .theme-card-text { flex: none !important; width: 100%; }
+      .theme-card-name { font-size: clamp(14px, 4.4vw, 17px) !important; white-space: normal !important; overflow: visible !important; text-overflow: clip !important; }
+      .theme-card-desc { font-size: clamp(10px, 2.9vw, 11.5px) !important; white-space: normal !important; overflow: visible !important; text-overflow: clip !important; }
+
+      /* smaller decorations on phones */
+      .flower-garden { height: 110px !important; }
+      .bg-corner { right: 12px !important; }
+
+      /* landing page stacks */
+      .land-grid { grid-template-columns: 1fr !important; }
+      .land-left {
+        border-radius: 24px 24px 0 0 !important;
+        border-right: 1px solid ${theme.navBorder} !important;
+        border-bottom: none !important;
+        padding: 30px 22px !important;
+      }
+      .land-right {
+        border-radius: 0 0 24px 24px !important;
+        border-left: 1.5px solid ${theme.navBorder} !important;
+        border-top: none !important;
+        padding: 26px 18px !important;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .nav-tx { font-size: 9.5px; }
+      .nav-i { padding: 6px 4px; }
+    }
+
+    /* Study cards get narrower once the screen is below 317px
+       (289px at 317px wide, ~215px at 280px, never below 180px) */
+    @media (max-width: 317px) {
+      .study-members,
+      .study-room,
+      .study-chat {
+        width: max(180px, calc(200vw - 345px));
+        justify-self: center;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
     }

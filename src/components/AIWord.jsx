@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { API_URL } from "../../config";
 const AIWord = ({ onSave, theme }) => {
@@ -54,6 +53,7 @@ const AIWord = ({ onSave, theme }) => {
       style={{
         padding: 22,
         height: "100%",
+        overflowWrap: "anywhere",
       }}
     >
       <div
@@ -94,6 +94,7 @@ const AIWord = ({ onSave, theme }) => {
           }
           style={{
             flex: 1,
+            minWidth: 0,
           }}
         />
 
@@ -199,7 +200,7 @@ const AIWord = ({ onSave, theme }) => {
               lineHeight: 1.5,
             }}
           >
-            "{wordResult.example}"
+            {wordResult.example && `"${wordResult.example}"`}
           </p>
 
           <button
@@ -251,4 +252,3 @@ const AIWord = ({ onSave, theme }) => {
 };
 
 export default AIWord;
-

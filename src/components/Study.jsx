@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import { createWebSocketClient } from "../websocket";
 import { API_URL } from "../../config";
@@ -28,7 +27,7 @@ const MOCK_M = [
   },
 ];
 
-const EMOJIS = ["🌸", "✨", "💚", "☕", "📚", "🌙"];
+const EMOJIS = [ "💚", "☕", "📚", "🌙"];
 
 
 // ============================================================
@@ -449,7 +448,7 @@ client.subscribe(
 
   return (
     <div
-      className="page"
+      className="page pg"
       style={{
         padding: "88px 28px 28px",
         maxWidth: 980,
@@ -471,6 +470,7 @@ client.subscribe(
 
 
       <div
+        className="grid-side"
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 2fr",
@@ -483,6 +483,7 @@ client.subscribe(
         ==================================================== */}
 
         <div
+          className="study-side"
           style={{
             display: "flex",
             flexDirection: "column",
@@ -494,7 +495,7 @@ client.subscribe(
               Room information
           -------------------------------------------------- */}
 
-          <div className="card" style={{ padding: 18 }}>
+          <div className="card study-room" style={{ padding: 18 }}>
             <div
               className="hand"
               style={{
@@ -517,7 +518,7 @@ client.subscribe(
                 letterSpacing: 2,
                 color:theme.green,
                 textAlign: "center",
-                fontFamily: "'Caveat', cursive",
+                fontFamily: "'Mali', cursive",
               }}
             >
               {roomCode}
@@ -542,13 +543,18 @@ client.subscribe(
               Room members
           -------------------------------------------------- */}
 
-          <div className="card" style={{ padding: 18 }}>
+          <div className="card study-members" style={{ padding: 18 }}>
             <div
               className="hand"
               style={{
                 fontSize: 18,
                 color:theme.green,
                 marginBottom: 10,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                flexWrap: "wrap",
+                gap: 8,
               }}
             >
               👥 Online ({members.length}/6)
@@ -556,7 +562,7 @@ client.subscribe(
              <button
   onClick={onLeaveRoom}
   style={{
-    marginLeft: 20,
+    marginLeft: 0,
     padding: "7px 16px",
     borderRadius: 50,
     border: `1.5px solid ${theme.navBorder}`,
@@ -698,7 +704,7 @@ client.subscribe(
         ==================================================== */}
 
         <div
-          className="card"
+          className="card chat-box study-chat"
           style={{
             padding: 18,
             display: "flex",
@@ -796,6 +802,7 @@ client.subscribe(
                 </div>
               );
             })}
+          </div>
 
 
             {/* --------------------------------------------------
@@ -877,8 +884,6 @@ client.subscribe(
               </button>
             </div>
 
-
-          </div>
         </div>
       </div>
     </div>
@@ -886,4 +891,3 @@ client.subscribe(
 };
 
 export default Study;
-

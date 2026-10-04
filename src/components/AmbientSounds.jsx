@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from "react";
 
 const AMBIENT_SOUNDS = [
@@ -53,7 +52,8 @@ const AmbientSounds = ({
     audio.loop = true;
     audio.volume = volume / 100;
 
-    audio.play();
+    // Phones can block autoplay; ignore the rejection instead of crashing.
+    audio.play().catch(() => {});
 
     audioRef.current = audio;
 
@@ -100,7 +100,7 @@ const AmbientSounds = ({
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
+          gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
           gap: 7,
           marginBottom: 18,
         }}
@@ -111,6 +111,7 @@ const AmbientSounds = ({
             className={`snd-btn ${
               activeSound === sound.id ? "on" : ""
             }`}
+            style={{ minWidth: 0, width: "100%" }}
             onClick={() =>
               handleSoundSelect(sound.id)
             }
@@ -204,4 +205,3 @@ const AmbientSounds = ({
 };
 
 export default AmbientSounds;
-
