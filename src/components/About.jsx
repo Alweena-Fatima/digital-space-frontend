@@ -1,6 +1,14 @@
 import React from "react";
 import AnimeGirl from "./AnimeGirl";
 
+// ✏️ EDIT THESE TWO LINES with your real contact details
+const CONTACT_EMAIL = "alweenacse@gmail.com";
+const LINKEDIN_URL = "www.linkedin.com/in/alweena-fatima-15580b262";
+
+const MAIL_LINK = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+  "Digital Space – feature suggestion"
+)}`;
+
 const About = ({ t }) => {
   const features = [
     {
@@ -29,6 +37,17 @@ const About = ({ t }) => {
     },
   ];
 
+  // Shared style for the two contact buttons (rendered as links).
+  const linkButton = {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
+    textDecoration: "none",
+    flex: "1 1 150px",
+    textAlign: "center",
+  };
+
   return (
     <div
       className="page pg"
@@ -45,13 +64,13 @@ const About = ({ t }) => {
       <div
         style={{
           textAlign: "center",
-          marginBottom: 42,
+          marginBottom: 32,
         }}
       >
         <div
           style={{
-            fontSize: 48,
-            marginBottom: 10,
+            fontSize: 44,
+            marginBottom: 8,
             animation: "bounce 3s ease infinite",
           }}
         >
@@ -61,7 +80,7 @@ const About = ({ t }) => {
         <div
           className="hand"
           style={{
-            fontSize: 40,
+            fontSize: 38,
             color: t.green,
             marginBottom: 8,
           }}
@@ -73,8 +92,8 @@ const About = ({ t }) => {
           style={{
             fontSize: 14,
             color: t.textMuted,
-            lineHeight: 1.9,
-            maxWidth: 600,
+            lineHeight: 1.8,
+            maxWidth: 560,
             margin: "0 auto",
           }}
         >
@@ -84,77 +103,60 @@ const About = ({ t }) => {
       </div>
 
       {/* =====================================================
-          WHAT IS DIGITAL SPACE?
+          WHAT + WHY  (compact, side by side when there is room)
           ===================================================== */}
 
       <div
-        className="card card-h pad-card"
         style={{
-          padding: "24px 28px",
-          marginBottom: 18,
-        }}
-      >
-        <div
-          className="hand"
-          style={{
-            fontSize: 23,
-            color: t.green,
-            marginBottom: 9,
-          }}
-        >
-          What is Digital Space?
-        </div>
-
-        <p
-          style={{
-            fontSize: 13,
-            color: t.text,
-            lineHeight: 1.9,
-            margin: 0,
-          }}
-        >
-          Digital Space is a shared online room for studying, planning,
-          chatting, and staying motivated with others. Instead of using
-          separate tools for goals, conversations, notes, and inspiration,
-          everything lives together in one calm study environment.
-        </p>
-      </div>
-
-      {/* =====================================================
-          WHY IT EXISTS
-          ===================================================== */}
-
-      <div
-        className="card card-h pad-card"
-        style={{
-          padding: "24px 28px",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(250px, 100%), 1fr))",
+          gap: 12,
           marginBottom: 28,
         }}
       >
-        <div
-          className="hand"
-          style={{
-            fontSize: 23,
-            color: t.green,
-            marginBottom: 9,
-          }}
-        >
-          Why Digital Space?
+        <div className="card card-h" style={{ padding: "16px 18px" }}>
+          <div
+            className="hand"
+            style={{ fontSize: 19, color: t.green, marginBottom: 5 }}
+          >
+            What is it?
+          </div>
+
+          <p
+            style={{
+              fontSize: 12.5,
+              color: t.text,
+              lineHeight: 1.7,
+              margin: 0,
+            }}
+          >
+            A shared online room for studying, chatting, and staying
+            motivated. Goals, notes, and inspiration all live together in
+            one calm place.
+          </p>
         </div>
 
-        <p
-          style={{
-            fontSize: 13,
-            color: t.text,
-            lineHeight: 1.9,
-            margin: 0,
-          }}
-        >
-          Studying does not always have to mean working alone. Digital Space
-          was created around a simple idea: having a quiet place where you
-          can see your friends studying, share small goals, exchange ideas,
-          and still have your own focused workspace.
-        </p>
+        <div className="card card-h" style={{ padding: "16px 18px" }}>
+          <div
+            className="hand"
+            style={{ fontSize: 19, color: t.green, marginBottom: 5 }}
+          >
+            Why Digital Space?
+          </div>
+
+          <p
+            style={{
+              fontSize: 12.5,
+              color: t.text,
+              lineHeight: 1.7,
+              margin: 0,
+            }}
+          >
+            Studying doesn't have to mean working alone. See your friends
+            study, share small goals, and still keep your own focused
+            workspace.
+          </p>
+        </div>
       </div>
 
       {/* =====================================================
@@ -185,9 +187,7 @@ const About = ({ t }) => {
             <div
               key={feature.title}
               className="card card-h"
-              style={{
-                padding: "20px",
-              }}
+              style={{ padding: "20px" }}
             >
               <div
                 className="hand"
@@ -223,7 +223,7 @@ const About = ({ t }) => {
         className="card card-h pad-card"
         style={{
           padding: "26px 28px",
-          marginBottom: 28,
+          marginBottom: 18,
         }}
       >
         <div
@@ -263,6 +263,66 @@ const About = ({ t }) => {
           project while exploring React, Spring Boot, MySQL, WebSockets,
           and AI integration.
         </p>
+      </div>
+
+      {/* =====================================================
+          SUGGEST A FEATURE
+          ===================================================== */}
+
+      <div
+        className="card pad-card"
+        style={{
+          padding: "24px 28px",
+          marginBottom: 28,
+          textAlign: "center",
+        }}
+      >
+        <div style={{ fontSize: 30, marginBottom: 4 }}>💡</div>
+
+        <div
+          className="hand"
+          style={{ fontSize: 23, color: t.green, marginBottom: 6 }}
+        >
+          Got an idea? Suggest a feature
+        </div>
+
+        <p
+          style={{
+            fontSize: 13,
+            color: t.textMuted,
+            lineHeight: 1.8,
+            maxWidth: 480,
+            margin: "0 auto 16px",
+          }}
+        >
+          Digital Space keeps growing with your ideas. Found a bug or want
+          to see something new? Send me a note, I'd love to hear it.
+        </p>
+
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 10,
+            justifyContent: "center",
+            maxWidth: 420,
+            margin: "0 auto",
+          }}
+        >
+          <a className="btn-g" href={MAIL_LINK} style={linkButton}>
+            ✉️ Email me
+          </a>
+
+          <a
+            className="btn-o"
+            href={LINKEDIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={linkButton}
+          >
+            💼 LinkedIn
+          </a>
+        </div>
       </div>
 
       {/* =====================================================

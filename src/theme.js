@@ -13,42 +13,42 @@ export const THEMES = {
   // ---------------------------------------------------------------- default
   default: {
     label: "Cozy Default",
-    desc: "Warm parchment and soft greens",
+    desc: "Fresh greens and a little garden",
     emoji: "🌿",
 
-    pageBg: "linear-gradient(160deg, #F4EAD6 0%, #EADCC1 55%, #DCCBA9 100%)",
-    navBg: "#FCF8EF",
-    navBorder: "#D9CBAE",
+    pageBg: "linear-gradient(160deg, #EFF7E9 0%, #DFEDD6 55%, #CDE0C2 100%)",
+    navBg: "#F6FBF2",
+    navBorder: "#C5DABA",
 
-    cardBg: "#FFFAF0",
+    cardBg: "#F7FBF3",
     cardHoverBg: "#FFFFFF",
 
     inputBg: "#FFFFFF",
-    inputBorder: "#D2C1A1",
-    inputFocus: "#4F7A57",
+    inputBorder: "#BCD3B0",
+    inputFocus: "#3F8A55",
 
-    text: "#332A1E",
-    textLight: "#5B4D3A",
-    textMuted: "#8A7C66",
+    text: "#1F3524",
+    textLight: "#3F5C45",
+    textMuted: "#6F8C75",
 
-    accent: "#C66F56",
-    accentDark: "#9F503D",
-    accentLight: "#D9937D",
+    accent: "#3F8A55",
+    accentDark: "#2D6B40",
+    accentLight: "#7DB88A",
 
-    green: "#4F7A57",
-    greenDark: "#3A5E42",
-    greenLight: "#7BA283",
+    green: "#46905A",
+    greenDark: "#2F6E43",
+    greenLight: "#7FB98C",
 
-    shadow: "rgba(67, 53, 35, 0.14)",
-    bgLight: "#F3E8D3",
-    bgDark: "#CCB993",
-    progressBg: "#E2D3B5",
+    shadow: "rgba(40, 80, 50, 0.14)",
+    bgLight: "#E6F1DE",
+    bgDark: "#B5D0A6",
+    progressBg: "#D3E5C8",
 
-    badge: "rgba(79, 122, 87, 0.12)",
-    todoHover: "rgba(79, 122, 87, 0.07)",
-    selectBg: "rgba(79, 122, 87, 0.12)",
+    badge: "rgba(70, 144, 90, 0.13)",
+    todoHover: "rgba(70, 144, 90, 0.07)",
+    selectBg: "rgba(70, 144, 90, 0.12)",
 
-    bgEffect: "none",
+    bgEffect: "plants",
   },
 
   // --------------------------------------------------------------- midnight
@@ -176,7 +176,7 @@ export const THEMES = {
 
   // ------------------------------------------------------------------- cafe
   cafe: {
-    label: "Matcha Cafe",
+    label: "Cafe",
     desc: "Earthy matcha green and warm brown",
     emoji: "🍵",
 
