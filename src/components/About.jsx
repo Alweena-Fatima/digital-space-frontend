@@ -245,7 +245,7 @@ const About = ({ t }) => {
             margin: 0,
           }}
         >
-          Hi, I'm Alweena, a Computer Science graduate and software
+          Hi, I'm Hhehehe, a Computer Science graduate and software
           developer who enjoys building applications that combine technology
           with thoughtful user experiences.
         </p>
