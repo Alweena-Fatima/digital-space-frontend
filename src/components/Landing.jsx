@@ -8,13 +8,14 @@ const Landing = ({ onEnter, theme }) => {
   const [mode, setMode] = useState("join");
   const [generatedRoomCode, setGeneratedRoomCode] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [roomCodeWarning, setRoomCodeWarning] = useState(false);
 
   const createRoom = async () => {
     setErrorMessage("");
 
     try {
       const response = await fetch(
-         `${API_URL}/api/rooms`,
+        `${API_URL}/api/rooms`,
         {
           method: "POST",
         }
@@ -115,7 +116,7 @@ const Landing = ({ onEnter, theme }) => {
               marginBottom: 5,
             }}
           >
-            Digital Space 
+            Digital Space
           </div>
 
           <p
@@ -150,7 +151,7 @@ const Landing = ({ onEnter, theme }) => {
 
             <input
               className="inp"
-              placeholder="e.g. Alweena"
+              placeholder="e.g. Xyz"
               value={displayName}
               onChange={(event) => {
                 setDisplayName(event.target.value);
@@ -169,10 +170,17 @@ const Landing = ({ onEnter, theme }) => {
           >
             <div className="lbl">Room Code</div>
 
+
             <input
               className="inp"
               placeholder="Enter room code..."
               value={roomCode}
+              onFocus={() => {
+                setRoomCodeWarning(true);
+              }}
+              onBlur={() => {
+                setRoomCodeWarning(false);
+              }}
               onChange={(event) => {
                 setRoomCode(event.target.value);
                 setErrorMessage("");
@@ -181,6 +189,29 @@ const Landing = ({ onEnter, theme }) => {
                 event.key === "Enter" && joinRoom()
               }
             />
+
+            {roomCodeWarning && (
+              <div
+                style={{
+                  fontSize: 11,
+                  color: theme.accent,
+                  background: theme.accent + "12",
+                  border: `1px solid ${theme.accent}40`,
+                  borderRadius: 10,
+                  padding: "10px 12px",
+                  marginTop: -12,
+                  marginBottom: 14,
+                  lineHeight: 1.6,
+                }}
+              >
+                💡 Don't have an existing room code? Leave this
+                field blank, click <strong>Create New Room</strong>,
+                and we'll generate a new code for you. Then click
+                <strong> Join Room</strong> to enter your room.
+              </div>
+            )}
+
+
           </div>
 
           {mode === "create" && generatedRoomCode && (
@@ -246,7 +277,7 @@ const Landing = ({ onEnter, theme }) => {
             }}
             onClick={joinRoom}
           >
-            Join Room 
+            Join Room
           </button>
 
           <button
@@ -297,7 +328,7 @@ const Landing = ({ onEnter, theme }) => {
               textAlign: "center",
             }}
           >
-            Ready to focus? 
+            Ready to focus?
           </div>
 
           <p

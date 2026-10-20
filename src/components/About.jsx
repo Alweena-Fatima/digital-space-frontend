@@ -2,8 +2,8 @@ import React from "react";
 import AnimeGirl from "./AnimeGirl";
 
 // ✏️ EDIT THESE TWO LINES with your real contact details
-const CONTACT_EMAIL = "alweenacse@gmail.com";
-const LINKEDIN_URL = "www.linkedin.com/in/alweena-fatima-15580b262";
+const CONTACT_EMAIL = "xyz@gmail.com";
+const LINKEDIN_URL = "WWW";
 
 const MAIL_LINK = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
   "Digital Space – feature suggestion"
