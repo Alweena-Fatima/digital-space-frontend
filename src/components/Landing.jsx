@@ -29,6 +29,7 @@ const Landing = ({ onEnter, theme }) => {
   };
 
   // Create a room and receive its randomly generated code.
+
   const createRoom = async () => {
     if (isCreating) return;
 
@@ -40,44 +41,69 @@ const Landing = ({ onEnter, theme }) => {
         method: "POST",
       });
 
+      // Read the response body, including error responses.
+      const data = await response.json().catch(() => ({}));
+
       if (!response.ok) {
-        throw new Error("Failed to create room");
+        throw new Error(
+          data.message || "Could not create room. Please try again."
+        );
       }
 
-      const data = await response.json();
+      if (!data.roomCode) {
+        throw new Error("Room was created, but no room code was returned.");
+      }
 
       setGeneratedRoomCode(data.roomCode);
       setRoomCode(data.roomCode);
       setMode("create");
     } catch (error) {
-      setErrorMessage("Could not create room. Please try again.");
+      console.error("Create room error:", error);
+
+      setErrorMessage(
+        error.message || "Could not create room. Please try again."
+      );
     } finally {
       setIsCreating(false);
     }
   };
 
+
   // Validate details before entering the selected room.
-  const joinRoom = () => {
-    setErrorMessage("");
+  
+const joinRoom = async () => {
+  setErrorMessage("");
 
-    if (!nickname.trim()) {
-      return setErrorMessage("Please enter a nickname.");
-    }
+  if (!nickname.trim()) {
+    setErrorMessage("Please enter a nickname.");
+    return;
+  }
 
-    if (!displayName.trim()) {
-      return setErrorMessage("Please enter a display name.");
-    }
+  if (!displayName.trim()) {
+    setErrorMessage("Please enter a display name.");
+    return;
+  }
 
-    if (!roomCode.trim()) {
-      return setErrorMessage("Please enter a room code.");
-    }
+  if (!roomCode.trim()) {
+    setErrorMessage("Please enter a room code.");
+    return;
+  }
 
-    onEnter(
+  try {
+    await onEnter(
       nickname.trim(),
       displayName.trim(),
       roomCode.trim().toUpperCase()
     );
-  };
+  } catch (error) {
+    console.error("Join room error:", error);
+
+    setErrorMessage(
+      error.message || "Could not join the room. Please try again."
+    );
+  }
+};
+
 
   return (
     <div

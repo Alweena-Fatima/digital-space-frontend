@@ -84,7 +84,7 @@ export default function App() {
        * stored theme. The backend is the source of truth.
        */
       fetch(
-         `${API_URL}/api/rooms/${savedRoomCode}`
+        `${API_URL}/api/rooms/${savedRoomCode}`
       )
         .then((response) => {
           if (!response.ok) {
@@ -111,85 +111,62 @@ export default function App() {
   // JOIN ROOM
   // =========================================================
 
-  const enterRoom = async (
-    nickname,
-    displayName,
-    roomCode
-  ) => {
-    try {
-      // Ask the backend to add this member to the room.
-      const response = await fetch(
-        `${API_URL}/api/rooms/join`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            roomCode,
-            nickname,
-            displayName,
-          }),
-        }
-      );
 
-      if (!response.ok) {
-        throw new Error("Failed to join room");
+  const enterRoom = async (nickname, displayName, roomCode) => {
+    // Send the join request to the backend.
+    const response = await fetch(
+      `${API_URL}/api/rooms/join`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          roomCode,
+          nickname,
+          displayName,
+        }),
       }
+    );
 
-      const memberData = await response.json();
+    // Read the backend response, even when it contains an error.
+    const memberData = await response.json().catch(() => ({}));
 
-      /*
-       * Fetch the room after joining so we get the current
-       * room theme from the backend.
-       */
-      const roomResponse = await fetch(
-        `${API_URL}/api/rooms/${roomCode}`
-      );
-
-      if (!roomResponse.ok) {
-        throw new Error("Failed to fetch room");
-      }
-
-      const roomData = await roomResponse.json();
-
-      // Update React state with the joined member's information.
-      setNickname(memberData.nickname);
-      setDisplayName(memberData.displayName);
-      setMemberId(memberData.id);
-      setRoomCode(roomCode);
-      setThemeKey(roomData.theme.toLowerCase());
-
-      // Save the room session so it can be restored after refresh.
-      localStorage.setItem(
-        "digitalSpaceMemberId",
-        memberData.id
-      );
-
-      localStorage.setItem(
-        "digitalSpaceNick",
-        memberData.nickname
-      );
-
-      localStorage.setItem(
-        "digitalSpaceDisplayName",
-        memberData.displayName
-      );
-
-      localStorage.setItem(
-        "digitalSpaceRoom",
-        roomCode
-      );
-
-      setScreen("app");
-    } catch (error) {
-      console.error("Join room error:", error);
-
-      alert(
-        "Could not join room. Please check the room code."
+    if (!response.ok) {
+      throw new Error(
+        memberData.message || "Could not join the room. Please try again."
       );
     }
+
+    // Fetch room details after a successful join.
+    const roomResponse = await fetch(
+      `${API_URL}/api/rooms/${roomCode}`
+    );
+
+    const roomData = await roomResponse.json().catch(() => ({}));
+
+    if (!roomResponse.ok) {
+      throw new Error(
+        roomData.message || "Joined, but could not load room details."
+      );
+    }
+
+    // Update React state only after both requests succeed.
+    setNickname(memberData.nickname);
+    setDisplayName(memberData.displayName);
+    setMemberId(memberData.id);
+    setRoomCode(roomCode);
+    setThemeKey(roomData.theme.toLowerCase());
+
+    // Save the session for page refreshes.
+    localStorage.setItem("digitalSpaceMemberId", memberData.id);
+    localStorage.setItem("digitalSpaceNick", memberData.nickname);
+    localStorage.setItem("digitalSpaceDisplayName", memberData.displayName);
+    localStorage.setItem("digitalSpaceRoom", roomCode);
+
+    setScreen("app");
   };
+
 
   // =========================================================
   // LEAVE ROOM
