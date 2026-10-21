@@ -1,25 +1,44 @@
+
 import React, { useState } from "react";
 import AnimeGirl from "./AnimeGirl";
 import { API_URL } from "../../config";
+
 const Landing = ({ onEnter, theme }) => {
   const [nickname, setNickname] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [roomCode, setRoomCode] = useState("");
-  const [mode, setMode] = useState("join");
+  const [mode, setMode] = useState("");
   const [generatedRoomCode, setGeneratedRoomCode] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [roomCodeWarning, setRoomCodeWarning] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
 
-  const createRoom = async () => {
+  // Reset room selection and its related state.
+  const resetRoomSelection = () => {
+    setMode("");
+    setRoomCode("");
+    setGeneratedRoomCode("");
     setErrorMessage("");
+  };
+
+  // Let the user choose to join an existing room.
+  const selectJoinMode = () => {
+    setMode("join");
+    setRoomCode("");
+    setGeneratedRoomCode("");
+    setErrorMessage("");
+  };
+
+  // Create a room and receive its randomly generated code.
+  const createRoom = async () => {
+    if (isCreating) return;
+
+    setErrorMessage("");
+    setIsCreating(true);
 
     try {
-      const response = await fetch(
-        `${API_URL}/api/rooms`,
-        {
-          method: "POST",
-        }
-      );
+      const response = await fetch(`${API_URL}/api/rooms`, {
+        method: "POST",
+      });
 
       if (!response.ok) {
         throw new Error("Failed to create room");
@@ -31,35 +50,32 @@ const Landing = ({ onEnter, theme }) => {
       setRoomCode(data.roomCode);
       setMode("create");
     } catch (error) {
-      setErrorMessage(
-        "Could not create room. Please try again."
-      );
+      setErrorMessage("Could not create room. Please try again.");
+    } finally {
+      setIsCreating(false);
     }
   };
 
+  // Validate details before entering the selected room.
   const joinRoom = () => {
+    setErrorMessage("");
+
     if (!nickname.trim()) {
-      return setErrorMessage(
-        "Please enter a nickname ✨"
-      );
+      return setErrorMessage("Please enter a nickname.");
     }
 
     if (!displayName.trim()) {
-      return setErrorMessage(
-        "Please enter a display name 🌸"
-      );
+      return setErrorMessage("Please enter a display name.");
     }
 
     if (!roomCode.trim()) {
-      return setErrorMessage(
-        "Please enter a room code 🏠"
-      );
+      return setErrorMessage("Please enter a room code.");
     }
 
     onEnter(
       nickname.trim(),
       displayName.trim(),
-      roomCode.trim()
+      roomCode.trim().toUpperCase()
     );
   };
 
@@ -88,6 +104,7 @@ const Landing = ({ onEnter, theme }) => {
           zIndex: 1,
         }}
       >
+        {/* LEFT PANEL */}
         <div
           className="card land-left"
           style={{
@@ -128,16 +145,16 @@ const Landing = ({ onEnter, theme }) => {
               lineHeight: 1.6,
             }}
           >
-            Your cozy corner for deep focus & calm study
-            sessions~
+            Your cozy corner for deep focus & calm study sessions~
           </p>
 
+          {/* NICKNAME */}
           <div style={{ marginBottom: 14 }}>
             <div className="lbl">Your Nickname</div>
 
             <input
               className="inp"
-              placeholder="e.g. cozybunny "
+              placeholder="e.g. cozybunny"
               value={nickname}
               onChange={(event) => {
                 setNickname(event.target.value);
@@ -146,7 +163,8 @@ const Landing = ({ onEnter, theme }) => {
             />
           </div>
 
-          <div style={{ marginBottom: 14 }}>
+          {/* DISPLAY NAME */}
+          <div style={{ marginBottom: 22 }}>
             <div className="lbl">Display Name</div>
 
             <input
@@ -160,146 +178,185 @@ const Landing = ({ onEnter, theme }) => {
             />
           </div>
 
-          <div
-            style={{
-              marginBottom:
-                mode === "create" && generatedRoomCode
-                  ? 10
-                  : 20,
-            }}
-          >
-            <div className="lbl">Room Code</div>
-
-
-            <input
-              className="inp"
-              placeholder="Enter room code..."
-              value={roomCode}
-              onFocus={() => {
-                setRoomCodeWarning(true);
-              }}
-              onBlur={() => {
-                setRoomCodeWarning(false);
-              }}
-              onChange={(event) => {
-                setRoomCode(event.target.value);
-                setErrorMessage("");
-              }}
-              onKeyDown={(event) =>
-                event.key === "Enter" && joinRoom()
-              }
-            />
-
-            {roomCodeWarning && (
-              <div
-                style={{
-                  fontSize: 11,
-                  color: theme.accent,
-                  background: theme.accent + "12",
-                  border: `1px solid ${theme.accent}40`,
-                  borderRadius: 10,
-                  padding: "10px 12px",
-                  marginTop: -12,
-                  marginBottom: 14,
-                  lineHeight: 1.6,
-                }}
-              >
-                💡 Don't have an existing room code? Leave this
-                field blank, click <strong>Create New Room</strong>,
-                and we'll generate a new code for you. Then click
-                <strong> Join Room</strong> to enter your room.
-              </div>
-            )}
-
-
-          </div>
-
-          {mode === "create" && generatedRoomCode && (
-            <div
-              style={{
-                background: theme.green + "12",
-                border: `1.5px dashed ${theme.green}`,
-                borderRadius: 12,
-                padding: "10px 14px",
-                marginBottom: 14,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: 13,
-                  color: theme.green,
-                  fontWeight: 700,
-                }}
-              >
-                🏠 Code:{" "}
-                <strong>{generatedRoomCode}</strong>
-              </span>
+          {/* INITIAL CHOICE: NO ROOM CODE FIELD YET */}
+          {mode === "" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <div className="lbl">What would you like to do?</div>
 
               <button
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: 15,
-                }}
-                onClick={() =>
-                  navigator.clipboard?.writeText(
-                    generatedRoomCode
-                  )
-                }
+                className="btn-g"
+                style={{ width: "100%" }}
+                onClick={selectJoinMode}
               >
-                📋
+                Join an Existing Room
+              </button>
+
+              <button
+                className="btn-o"
+                style={{ width: "100%" }}
+                onClick={createRoom}
+                disabled={isCreating}
+              >
+                {isCreating
+                  ? "Creating Room..."
+                  : "+ Create a New Room"}
               </button>
             </div>
           )}
 
+          {/* JOIN MODE */}
+          {mode === "join" && (
+            <div>
+              <div className="lbl">Room Code</div>
+
+              <input
+                className="inp"
+                placeholder="Enter room code..."
+                value={roomCode}
+                onChange={(event) => {
+                  setRoomCode(event.target.value.toUpperCase());
+                  setErrorMessage("");
+                }}
+                onKeyDown={(event) =>
+                  event.key === "Enter" && joinRoom()
+                }
+              />
+
+              <p
+                style={{
+                  fontSize: 11,
+                  color: theme.textMuted,
+                  marginTop: 6,
+                  marginBottom: 16,
+                }}
+              >
+                Enter the room code shared by your friend.
+              </p>
+
+              <button
+                className="btn-g"
+                style={{ width: "100%", marginBottom: 10 }}
+                onClick={joinRoom}
+              >
+                Join Room
+              </button>
+
+              <button
+                className="btn-o"
+                style={{ width: "100%" }}
+                onClick={resetRoomSelection}
+              >
+                Back
+              </button>
+            </div>
+          )}
+
+          {/* CREATE MODE: SHOW GENERATED CODE */}
+          {mode === "create" && generatedRoomCode && (
+            <div>
+              <div className="lbl">Your Room Code</div>
+
+              <input
+                className="inp"
+                value={generatedRoomCode}
+                readOnly
+              />
+
+              <div
+                style={{
+                  background: theme.green + "12",
+                  border: `1.5px dashed ${theme.green}`,
+                  borderRadius: 12,
+                  padding: "10px 14px",
+                  marginTop: 12,
+                  marginBottom: 16,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: 10,
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: 12,
+                    color: theme.green,
+                    fontWeight: 700,
+                  }}
+                >
+                  Share this code with your friends!
+                </span>
+
+                <button
+                  type="button"
+                  aria-label="Copy room code"
+                  title="Copy room code"
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    fontSize: 18,
+                  }}
+                  onClick={() => {
+                    navigator.clipboard
+                      ?.writeText(generatedRoomCode)
+                      .catch(() => {
+                        setErrorMessage(
+                          "Could not copy the code. Please copy it manually."
+                        );
+                      });
+                  }}
+                >
+                  📋
+                </button>
+              </div>
+
+              <button
+                className="btn-g"
+                style={{ width: "100%", marginBottom: 10 }}
+                onClick={joinRoom}
+              >
+                Enter Your Room
+              </button>
+
+              <button
+                className="btn-o"
+                style={{ width: "100%" }}
+                onClick={resetRoomSelection}
+              >
+                Back
+              </button>
+            </div>
+          )}
+
+          {/* ERROR MESSAGE */}
           {errorMessage && (
             <div
+              role="alert"
               style={{
                 color: theme.accent,
                 fontSize: 12,
-                marginBottom: 10,
+                marginTop: 12,
                 fontWeight: 700,
+                lineHeight: 1.5,
               }}
             >
               ⚠️ {errorMessage}
             </div>
           )}
 
-          <button
-            className="btn-g"
-            style={{
-              width: "100%",
-              marginBottom: 10,
-            }}
-            onClick={joinRoom}
-          >
-            Join Room
-          </button>
-
-          <button
-            className="btn-o"
-            style={{ width: "100%" }}
-            onClick={createRoom}
-          >
-            + Create New Room
-          </button>
-
           <p
             style={{
               fontSize: 11,
               color: theme.textMuted,
               textAlign: "center",
-              marginTop: 18,
+              marginTop: 22,
             }}
           >
             🌿 No account needed · Just vibe & study
           </p>
         </div>
 
+        {/* RIGHT PANEL */}
         <div
           className="land-right"
           style={{
@@ -345,7 +402,6 @@ const Landing = ({ onEnter, theme }) => {
             and achieve your daily goals~
           </p>
 
-          {/* Feature pills wrap onto several rows, so the list can grow */}
           <div
             style={{
               display: "flex",
